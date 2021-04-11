@@ -29,12 +29,12 @@
     mounted():void {
       console.log('mounted');
       if (!WordStore.store.state.word)
-        this.resetAnswers();
+        this.nextQuestion();
     }
 
     public _onAnswer(text:string):void {
       GameStore.game.commit('answer', text);
-      this.resetAnswers();
+      this.nextQuestion();
     }
 
     public get score():number {
@@ -49,14 +49,14 @@
       return GameStore.game.getters.options;
     }
 
-    resetAnswers():void {
+    async nextQuestion():Promise<void> {
       const nextAnswers:Array<string> = [];
       while (nextAnswers.length < 4) {
         const word = words[Math.floor(Math.random()*words.length)]
         if (nextAnswers.indexOf(word) < 0)
           nextAnswers.push(word);
       }
-      this.setAnswer(nextAnswers);
+      await this.setAnswer(nextAnswers);
       GameStore.game.commit('options', nextAnswers)
     }
 
