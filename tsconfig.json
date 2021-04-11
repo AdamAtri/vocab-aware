@@ -12,9 +12,9 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "types": [
       "webpack-env",
-      
       "@wdio/mocha-framework",
       "@wdio/sync",
       "jest"
