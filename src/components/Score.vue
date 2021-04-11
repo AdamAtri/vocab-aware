@@ -5,10 +5,14 @@
 </template>
 
 <script lang="ts">
+  import { GameStore } from '@/store/game-store';
   import { Component, Prop, Vue } from 'vue-property-decorator';
+
   @Component({})
   export default class Score extends Vue {
-    @Prop({default: 420}) score?:number;
+    public get score():number {
+      return GameStore.game.getters.score;
+    }
   } 
 </script>
 

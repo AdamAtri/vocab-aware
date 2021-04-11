@@ -11,11 +11,14 @@
 </template>
 
 <script lang="ts">
-  import { WordDef } from '@/store/word-model';
-  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { GameStore } from '@/store/game-store';
+import { WordDef } from '@/store/word-model';
+  import { Component, Vue } from 'vue-property-decorator';
   @Component({})
   export default class Question extends Vue {
-    @Prop() question?:Array<WordDef>;
+    public get question():WordDef[] {
+      return GameStore.game.getters.question;
+    }
   } 
 </script>
 

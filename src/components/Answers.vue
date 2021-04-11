@@ -11,12 +11,14 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { GameStore } from '@/store/game-store';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
   @Component({ })
   export default class Answers extends Vue {
-    @Prop({default:['answer 1', 'answer 2', 'answer 3', 'answer 4']})
-    public answers!:Array<string>;
+    public get answers():Array<string> {
+      return GameStore.game.getters.answers;
+    }
 
     @Prop() public onAnswerCallback!:(text:string)=>void;
 

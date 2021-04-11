@@ -1,9 +1,9 @@
 <template>
   <div class="about">
     <h1>stuff you should know</h1>
-    <Score :score="score" />
-    <Question :question="question" />
-    <Answers :answers="answers" :onAnswerCallback="_onAnswer"/>
+    <Score />
+    <Question />
+    <Answers :onAnswerCallback="_onAnswer"/>
   </div>
 </template>
 
@@ -13,7 +13,6 @@
   import Score from '@/components/Score.vue';
   import Question from '@/components/Question.vue';
   import Answers from '@/components/Answers.vue';
-  import { WordDef } from '@/store/word-model';
   import { GameState, GameStore } from '@/store/game-store';
 
 
@@ -33,21 +32,7 @@
       GameStore.game.commit('answer', text);
       /*  */
       GameStore.nextQuestion();
-    }
-
-    public get score():number {
-      return GameStore.game.getters.score;
-    }
-
-    public get question():WordDef[] {
-      return GameStore.game.getters.question;
-    }
-    
-    public get answers():Array<string> {
-      return GameStore.game.getters.answers;
-    }
-
-    
+    }   
   } 
 </script>
 
