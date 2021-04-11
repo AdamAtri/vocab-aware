@@ -10,6 +10,13 @@ export enum GameType {
   DEFINITION = 'select the word that fits the definition',
   WORD = 'select the definition that fits the word'
 }
+export enum GameState {
+  NEW = 'new-game',
+  ASKING = 'asking-question',
+  CORRECT = 'answered-correctly',
+  INCORRECT = 'answered-incorrectly',
+  FINISHED = 'game-finished'
+}
 
 type Game = {
   type: GameType
@@ -17,6 +24,7 @@ type Game = {
   correct: Array<string>
   incorrect: Array<string>
   currentOptions: Array<string>
+  gameState: GameState
 }
 
 export class GameStore {
@@ -41,13 +49,14 @@ export class GameStore {
         answers: new Array<string>(),
         correct: new Array<string>(),
         incorrect: new Array<string>(),
-        currentOptions: new Array<string>()
+        currentOptions: new Array<string>(),
+        gameState: GameState.NEW
       },
       getters: {
         score: state => {
           return state.correct.length
         },
-        options: state => {
+        answers: state => {
           return state.currentOptions
         },
         question: () => {
@@ -58,19 +67,28 @@ export class GameStore {
         // record the user's answer for the current question
         answer(state, ans:string):void {
           state.answers.push(ans);
-          if (ans === WordStore.store.state.word) 
+          if (ans === WordStore.store.state.word) {
             state.correct.push(ans);
-          else
+            state.gameState = GameState.CORRECT;
+          }
+          else {
             state.incorrect.push(ans);
+            state.gameState = GameState.INCORRECT;
+          }
         },
         // set the current options
         options(state, opts:Array<string>):void {
           state.currentOptions = opts;
+          state.gameState = GameState.ASKING;
         }
       }
     }
     
     GameStore._instance = new Vuex.Store(defautOptions);
+  }
+
+  public static get gameState():GameState {
+    return GameStore.game.state.gameState
   }
 
   /**

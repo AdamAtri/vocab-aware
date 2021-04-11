@@ -13,8 +13,8 @@
   import Score from '@/components/Score.vue';
   import Question from '@/components/Question.vue';
   import Answers from '@/components/Answers.vue';
-  import { WordDef, WordStore } from '@/store/word-model';
-  import { GameStore } from '@/store/game-store';
+  import { WordDef } from '@/store/word-model';
+  import { GameState, GameStore } from '@/store/game-store';
 
 
   @Component({
@@ -25,7 +25,7 @@
   export default class About extends Vue { 
     mounted():void {
       console.log('mounted');
-      if (!WordStore.store.state.word)
+      if (GameStore.gameState === GameState.NEW)
         GameStore.nextQuestion();
     }
 
@@ -44,7 +44,7 @@
     }
     
     public get answers():Array<string> {
-      return GameStore.game.getters.options;
+      return GameStore.game.getters.answers;
     }
 
     
