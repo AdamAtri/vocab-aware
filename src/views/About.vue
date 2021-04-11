@@ -13,10 +13,7 @@
   import Score from '@/components/Score.vue';
   import Question from '@/components/Question.vue';
   import Answers from '@/components/Answers.vue';
-  import words from '@/assets/words.json';
-  import {getWordDef} from '@/data/words-api';
-  import { AxiosResponse } from 'axios';
-  import { Word, WordDef, WordStore } from '@/store/word-model';
+  import { WordDef, WordStore } from '@/store/word-model';
   import { GameStore } from '@/store/game-store';
 
 
@@ -29,12 +26,13 @@
     mounted():void {
       console.log('mounted');
       if (!WordStore.store.state.word)
-        this.nextQuestion();
+        GameStore.nextQuestion();
     }
 
     public _onAnswer(text:string):void {
       GameStore.game.commit('answer', text);
-      this.nextQuestion();
+      /*  */
+      GameStore.nextQuestion();
     }
 
     public get score():number {
@@ -42,29 +40,14 @@
     }
 
     public get question():WordDef[] {
-      return WordStore.store.state.results;
+      return GameStore.game.getters.question;
     }
     
     public get answers():Array<string> {
       return GameStore.game.getters.options;
     }
 
-    async nextQuestion():Promise<void> {
-      const nextAnswers:Array<string> = [];
-      while (nextAnswers.length < 4) {
-        const word = words[Math.floor(Math.random()*words.length)]
-        if (nextAnswers.indexOf(word) < 0)
-          nextAnswers.push(word);
-      }
-      await this.setAnswer(nextAnswers);
-      GameStore.game.commit('options', nextAnswers)
-    }
-
-    async setAnswer(nextAnswers:Array<string>):Promise<void> {
-      const nextWord = nextAnswers[Math.floor(Math.random()*nextAnswers.length)];
-      const response:AxiosResponse<any> = await getWordDef(nextWord);
-      WordStore.store.commit('word', response.data as Word)
-    }
+    
   } 
 </script>
 
