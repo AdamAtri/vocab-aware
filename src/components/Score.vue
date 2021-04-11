@@ -5,12 +5,10 @@
 </template>
 
 <script lang="ts">
-  import { Vue } from 'vue-property-decorator';
-  
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  @Component({})
   export default class Score extends Vue {
-    public get score():number {
-      return 420
-    }
+    @Prop({default: 420}) score?:number;
   } 
 </script>
 
