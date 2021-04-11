@@ -1,4 +1,4 @@
-const words = [
+[
   "abdicate",
   "connotation",
   "legendary",
@@ -98,5 +98,4 @@ const words = [
   "condemn",
   "irate",
   "confront"
-];
-window['WordBank'] = words;
+]
